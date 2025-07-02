@@ -16,16 +16,25 @@
     header {
       text-align: center;
       padding: 1rem;
-      font-size: 3rem;
+      font-size: 3.5rem;
       background-color: rgba(255, 255, 255, 0.8);
+    }
+    header img {
+      height: 60px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    header span {
       font-family: 'Concert One', cursive;
+      font-size: 3.5rem;
+      vertical-align: middle;
     }
     .banner-container {
       position: relative;
       max-width: 100%;
       margin: 1rem auto;
       overflow: hidden;
-      height: 240px;
+      height: 170px;
       border-radius: 15px;
       background-color: #fff;
     }
@@ -107,7 +116,10 @@
   </style>
 </head>
 <body>
-  <header>🎸 Proyecto <span style="font-family: 'Concert One', cursive; font-size: 3.5rem;">𝄞ach</span></header>
+  <header>
+    <img src="m-logo.png" alt="M nota musical">
+    <span>ach - Proyecto Mach</span>
+  </header>
 
   <div class="banner-container">
     <div class="banner-slides">
@@ -154,11 +166,6 @@
     }
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
-    }
-  </script>
-</body>
-</html>
-
     }
   </script>
 </body>
