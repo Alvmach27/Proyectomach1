@@ -6,6 +6,8 @@
   <title>Proyecto Mach</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
     body {
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -14,8 +16,9 @@
     header {
       text-align: center;
       padding: 1rem;
-      font-size: 2rem;
+      font-size: 3rem;
       background-color: rgba(255, 255, 255, 0.8);
+      font-family: 'Concert One', cursive;
     }
     .banner-container {
       position: relative;
@@ -104,7 +107,7 @@
   </style>
 </head>
 <body>
-  <header>🎸 Proyecto Mach</header>
+  <header>🎸 Proyecto <span style="font-family: 'Concert One', cursive; font-size: 3.5rem;">𝄞ach</span></header>
 
   <div class="banner-container">
     <div class="banner-slides">
@@ -151,6 +154,11 @@
     }
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
+
     }
   </script>
 </body>
