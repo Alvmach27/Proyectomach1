@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -16,7 +16,6 @@
     header {
       text-align: center;
       padding: 1rem;
-      font-size: 3.5rem;
       background-color: rgba(255, 255, 255, 0.8);
     }
     header img {
@@ -26,15 +25,15 @@
     }
     header span {
       font-family: 'Concert One', cursive;
-      font-size: 3.5rem;
+      font-size: 4rem;
       vertical-align: middle;
     }
     .banner-container {
       position: relative;
-      max-width: 100%;
+      max-width: 70%;
       margin: 1rem auto;
       overflow: hidden;
-      height: 170px;
+      height: 240px;
       border-radius: 15px;
       background-color: #fff;
     }
@@ -118,7 +117,7 @@
 <body>
   <header>
     <img src="m-logo.png" alt="M nota musical">
-    <span>ach - Proyecto Mach</span>
+    <span>Proyecto Mach</span>
   </header>
 
   <div class="banner-container">
@@ -154,16 +153,40 @@
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 id="modalTitle"></h3>
-      <p>Aquí se mostrará la lista de archivos para la persona seleccionada.</p>
-      <audio controls src="audio.mp3"></audio>
+      <div id="modalContent"></div>
     </div>
   </div>
 
   <script>
+    const audiosPorHermano = {
+      Alvaro: ['alvaro1.mp3', 'alvaro2.mp3'],
+      Marcos: ['marcos1.mp3'],
+      Crismar: [],
+      Ninoska: [],
+      Daysi: [],
+      Gustavo: [],
+      Gladys: []
+    };
+
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = '';
+      const audios = audiosPorHermano[nombre] || [];
+      if (audios.length === 0) {
+        modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
+      } else {
+        audios.forEach(audio => {
+          const audioElement = document.createElement('audio');
+          audioElement.controls = true;
+          audioElement.src = `audios/${nombre.toLowerCase()}/${audio}`;
+          modalContent.appendChild(audioElement);
+          modalContent.appendChild(document.createElement('br'));
+        });
+      }
       document.getElementById('modal').style.display = 'flex';
     }
+
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
     }
