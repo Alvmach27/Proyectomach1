@@ -1,0 +1,22 @@
+{
+  "headers": [
+    {
+      "source": "/audios/(.*).mp3",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "audio/mpeg"
+        }
+      ]
+    },
+    {
+      "source": "/audios/(.*).mp4",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "video/mp4"
+        }
+      ]
+    }
+  ]
+}
