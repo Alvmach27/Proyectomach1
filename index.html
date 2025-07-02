@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
     body {
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -124,7 +125,7 @@
       <div class="banner-slide"><img src="img1.jpg" alt="Slide 1"></div>
       <div class="banner-slide"><img src="img2.jpg" alt="Slide 2"></div>
       <div class="banner-slide"><img src="img3.jpg" alt="Slide 3"></div>
-      <div class="banner-slide"><video autoplay muted loop src="intro.mp4"></video></div>
+      <div class="banner-slide"><video autoplay muted loop src="intro.mp4" type="video/mp4"></video></div>
       <div class="banner-slide"><img src="img4.jpg" alt="Slide 4"></div>
       <div class="banner-slide"><img src="img5.jpg" alt="Slide 5"></div>
     </div>
@@ -158,9 +159,9 @@
   </div>
 
   <script>
-    const archivosPorHermano = {
-      Alvaro: ['mari.mp3','Nohelia.mp4'],
-      Marcos: ['mi_novia.mp3'], 
+    const audiosPorHermano = {
+      Alvaro: ['mari.mp3'],
+      Marcos: ['mi_novia.mp3', 'Nohelia.mp4'],
       Crismar: ['la_ley_del_monte.mp3'],
       Ninoska: [],
       Daysi: [],
@@ -172,33 +173,27 @@
       document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
-      const archivos = archivosPorHermano[nombre] || [];
+      const archivos = audiosPorHermano[nombre] || [];
       if (archivos.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
         archivos.forEach(archivo => {
           const ext = archivo.split('.').pop().toLowerCase();
-          const src = `audios/${nombre.toLowerCase()}/${archivo}`;
-
-          if (ext === 'mp3' || ext === 'wav' || ext === 'ogg') {
-            const audio = document.createElement('audio');
-            audio.controls = true;
-            audio.src = src;
-            modalContent.appendChild(audio);
-          } else if (ext === 'mp4' || ext === 'webm') {
-            const video = document.createElement('video');
-            video.controls = true;
-            video.src = src;
-            video.style.maxWidth = '100%';
-            modalContent.appendChild(video);
-          } else {
-            modalContent.innerHTML += `<p>Archivo no compatible: ${archivo}</p>`;
+          if (ext === 'mp3') {
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            modalContent.appendChild(audioElement);
+          } else if (ext === 'mp4') {
+            const videoElement = document.createElement('video');
+            videoElement.controls = true;
+            videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            videoElement.style.maxWidth = '100%';
+            modalContent.appendChild(videoElement);
           }
-
           modalContent.appendChild(document.createElement('br'));
         });
       }
-
       document.getElementById('modal').style.display = 'flex';
     }
 
@@ -208,3 +203,4 @@
   </script>
 </body>
 </html>
+
