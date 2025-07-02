@@ -1,4 +1,4 @@
-{<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
-
     body {
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -145,7 +144,7 @@
   </div>
 
   <div class="subsecciones">
-<div class="subseccion">Duos</div>
+    <div class="subseccion">Duos</div>
     <div class="subseccion">❤️ Testimonios</div>
     <div class="subseccion">📜 Historia</div>
     <div class="subseccion">👥 Amigos</div>
@@ -159,32 +158,47 @@
   </div>
 
   <script>
-    const audiosPorHermano = {
-  Alvaro: ['mari.mp3'],
-  Marcos: ['mi_novia.mp3','Nohelia.mp4'],
-  Crismar: ['la_ley_del_monte.mp3'],
-  Ninoska: [],
-  Daysi: [],
-  Gustavo: [],
-  Gladys: ['te_amare_toda_la_vida.mp3']
-};
+    const archivosPorHermano = {
+      Alvaro: ['mari.mp3','Nohelia.mp4'],
+      Marcos: ['mi_novia.mp3'], 
+      Crismar: ['la_ley_del_monte.mp3'],
+      Ninoska: [],
+      Daysi: [],
+      Gustavo: [],
+      Gladys: ['te_amare_toda_la_vida.mp3']
+    };
 
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
-      const audios = audiosPorHermano[nombre] || [];
-      if (audios.length === 0) {
+      const archivos = archivosPorHermano[nombre] || [];
+      if (archivos.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
-        audios.forEach(audio => {
-          const audioElement = document.createElement('audio');
-          audioElement.controls = true;
-          audioElement.src = `audios/${nombre.toLowerCase()}/${audio}`;
-          modalContent.appendChild(audioElement);
+        archivos.forEach(archivo => {
+          const ext = archivo.split('.').pop().toLowerCase();
+          const src = `audios/${nombre.toLowerCase()}/${archivo}`;
+
+          if (ext === 'mp3' || ext === 'wav' || ext === 'ogg') {
+            const audio = document.createElement('audio');
+            audio.controls = true;
+            audio.src = src;
+            modalContent.appendChild(audio);
+          } else if (ext === 'mp4' || ext === 'webm') {
+            const video = document.createElement('video');
+            video.controls = true;
+            video.src = src;
+            video.style.maxWidth = '100%';
+            modalContent.appendChild(video);
+          } else {
+            modalContent.innerHTML += `<p>Archivo no compatible: ${archivo}</p>`;
+          }
+
           modalContent.appendChild(document.createElement('br'));
         });
       }
+
       document.getElementById('modal').style.display = 'flex';
     }
 
