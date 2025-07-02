@@ -7,23 +7,24 @@
   <link rel="stylesheet" href="style.css">
   <style>
     body {
-      background: #fef7e5;
+      background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
+      background-size: cover;
       font-family: Arial, sans-serif;
     }
     header {
       text-align: center;
       padding: 1rem;
       font-size: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
     }
     .banner-container {
       position: relative;
       max-width: 100%;
-      margin: 0 auto;
+      margin: 1rem auto;
       overflow: hidden;
-      height: 320px;
+      height: 240px;
       border-radius: 15px;
-      background: url('banner-bg.jpg') no-repeat center center;
-      background-size: cover;
+      background-color: #fff;
     }
     .banner-slides {
       display: flex;
@@ -39,20 +40,18 @@
       object-fit: cover;
     }
     @keyframes slide {
-      0% { margin-left: 0%; }
-      16% { margin-left: 0%; }
-      20% { margin-left: -100%; }
-      36% { margin-left: -100%; }
-      40% { margin-left: -200%; }
-      56% { margin-left: -200%; }
-      60% { margin-left: -300%; }
-      76% { margin-left: -300%; }
-      80% { margin-left: -400%; }
-      96% { margin-left: -400%; }
+      0%, 16% { margin-left: 0%; }
+      20%, 36% { margin-left: -100%; }
+      40%, 56% { margin-left: -200%; }
+      60%, 76% { margin-left: -300%; }
+      80%, 96% { margin-left: -400%; }
       100% { margin-left: -500%; }
     }
     .seccion {
       margin: 2rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
+      border-radius: 12px;
     }
     .hermanos {
       display: flex;
@@ -65,6 +64,8 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       cursor: pointer;
+      flex: 1 0 120px;
+      text-align: center;
     }
     .modal {
       display: none;
@@ -76,6 +77,7 @@
       background-color: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
+      z-index: 999;
     }
     .modal-content {
       background-color: #fff;
@@ -84,6 +86,20 @@
       max-width: 90%;
       max-height: 90%;
       overflow-y: auto;
+    }
+    .subsecciones {
+      margin: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .subseccion {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex: 1 0 200px;
+      text-align: center;
     }
   </style>
 </head>
@@ -114,10 +130,17 @@
     </div>
   </div>
 
+  <div class="subsecciones">
+    <div class="subseccion">❤️ Testimonios</div>
+    <div class="subseccion">📜 Historia</div>
+    <div class="subseccion">👥 Amigos</div>
+  </div>
+
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <h3 id="modalTitle"></h3>
-      <p>Contenido multimedia de la persona seleccionada aparecerá aquí.</p>
+      <p>Aquí se mostrará la lista de archivos para la persona seleccionada.</p>
+      <audio controls src="audio.mp3"></audio>
     </div>
   </div>
 
