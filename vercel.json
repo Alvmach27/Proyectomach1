@@ -16,3 +16,13 @@
           "key": "Content-Type",
           "value": "video/mp4"
         }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+}
