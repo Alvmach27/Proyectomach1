@@ -186,8 +186,8 @@
 
   <script>
     const audiosPorHermano = {
-      Alvaro: ['mari.mp3','Nohelia.mp4','Diablo_suelto.mp3'],
-      Marcos: ['mi_novia.mp3'], 
+      Alvaro: ['mari.mp3'],
+      Marcos: ['mi_novia.mp3', 'Nohelia.mp4'],
       Crismar: ['la_ley_del_monte.mp3'],
       Ninoska: [],
       Daysi: [],
@@ -216,12 +216,14 @@
           if (audio.endsWith('.mp4')) {
             const video = document.createElement('video');
             video.controls = true;
-            video.src = `audios/${nombre.toLowerCase()}/${audio}`;
+            video.src = `/audios/${nombre.toLowerCase()}/${audio}`;
+            video.type = 'video/mp4';
             item.appendChild(video);
           } else {
             const audioEl = document.createElement('audio');
             audioEl.controls = true;
-            audioEl.src = `audios/${nombre.toLowerCase()}/${audio}`;
+            audioEl.src = `/audios/${nombre.toLowerCase()}/${audio}`;
+            audioEl.type = 'audio/mpeg';
             item.appendChild(audioEl);
           }
 
@@ -237,3 +239,4 @@
   </script>
 </body>
 </html>
+
