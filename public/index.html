@@ -92,36 +92,11 @@
     }
     .modal-content {
       background-color: #fff;
-      padding: 1rem;
+      padding: 2rem;
       border-radius: 10px;
-      width: 95%;
-      max-width: 600px;
-      max-height: 90vh;
+      max-width: 90%;
+      max-height: 90%;
       overflow-y: auto;
-      position: relative;
-    }
-    .modal-content h3 {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.5rem;
-    }
-    .close-button {
-      font-size: 2rem;
-      cursor: pointer;
-    }
-    .audio-item {
-      margin-bottom: 1.5rem;
-    }
-    .audio-item span {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    .audio-item audio, .audio-item video {
-      width: 100%;
-      height: auto;
-      max-height: 300px;
     }
     .subsecciones {
       margin: 2rem;
@@ -166,8 +141,6 @@
       <div class="hermano" onclick="openModal('Daysi')">🎧 Daysi</div>
       <div class="hermano" onclick="openModal('Gustavo')">🎧 Gustavo</div>
       <div class="hermano" onclick="openModal('Gladys')">🎧 Gladys</div>
-      <div class="hermano" onclick="openModal('Jose')">🎧 Jose</div>
-      <div class="hermano" onclick="openModal('Dayana')">🎧 Dayana</div>
     </div>
   </div>
 
@@ -180,7 +153,7 @@
 
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <h3 id="modalTitle">Modal <span class="close-button" onclick="closeModal()">&times;</span></h3>
+      <h3 id="modalTitle"></h3>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -188,49 +161,36 @@
   <script>
     const audiosPorHermano = {
       Alvaro: ['mari.mp3'],
-      Marcos: ['mi_novia.mp3', 'Nohelia.mp4'],
+      Marcos: ['mi_novia.mp3', 'Nohelia.mp4','Diablo_suelto.mp3'],
       Crismar: ['la_ley_del_monte.mp3'],
       Ninoska: [],
       Daysi: [],
       Gustavo: [],
-      Gladys: ['te_amare_toda_la_vida.mp3'],
-      Jose: [],
-      Dayana: []
+      Gladys: ['Te_amare_Toda_la_vida.mp3']
     };
 
     function openModal(nombre) {
-      document.getElementById('modalTitle').innerHTML = `${nombre} <span class="close-button" onclick="closeModal()">&times;</span>`;
+      document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
-      const audios = audiosPorHermano[nombre] || [];
-      if (audios.length === 0) {
+      const archivos = audiosPorHermano[nombre] || [];
+      if (archivos.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
-        audios.forEach(audio => {
-          const item = document.createElement('div');
-          item.className = 'audio-item';
-
-          const title = document.createElement('span');
-          title.innerText = audio.replace(/_/g, ' ').replace(/\..+$/, '');
-          item.appendChild(title);
-
-          if (audio.endsWith('.mp4')) {
-            const video = document.createElement('video');
-            video.controls = true;
-            video.src = `/audios/${nombre.toLowerCase()}/${audio}`;
-            video.type = 'video/mp4';
-            video.style.width = '100%';
-            video.style.maxHeight = '300px';
-            item.appendChild(video);
-          } else {
-            const audioEl = document.createElement('audio');
-            audioEl.controls = true;
-            audioEl.src = `/audios/${nombre.toLowerCase()}/${audio}`;
-            audioEl.type = 'audio/mpeg';
-            item.appendChild(audioEl);
+        archivos.forEach(archivo => {
+          const ext = archivo.split('.').pop().toLowerCase();
+          if (ext === 'mp3') {
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            modalContent.appendChild(audioElement);
+          } else if (ext === 'mp4') {
+            const videoElement = document.createElement('video');
+            videoElement.controls = true;
+            videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            modalContent.appendChild(videoElement);
           }
-
-          modalContent.appendChild(item);
+          modalContent.appendChild(document.createElement('br'));
         });
       }
       document.getElementById('modal').style.display = 'flex';
@@ -242,4 +202,3 @@
   </script>
 </body>
 </html>
-
