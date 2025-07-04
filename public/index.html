@@ -12,7 +12,6 @@
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: Arial, sans-serif;
-      margin: 0;
     }
     header {
       text-align: center;
@@ -93,28 +92,35 @@
     }
     .modal-content {
       background-color: #fff;
-      padding: 1rem;
+      padding: 2rem;
       border-radius: 10px;
-      max-width: 95%;
-      width: 500px;
-      max-height: 90%;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
       overflow-y: auto;
       position: relative;
     }
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      font-weight: bold;
+    .modal-content h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .close-button {
+      font-size: 1.5rem;
       cursor: pointer;
     }
     .audio-item {
       margin-bottom: 1rem;
     }
-    .audio-title {
-      margin: 0.5rem 0;
+    .audio-item span {
+      display: block;
+      margin-bottom: 0.5rem;
       font-weight: bold;
+    }
+    .audio-item audio, .audio-item video {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
     }
     .subsecciones {
       margin: 2rem;
@@ -129,11 +135,6 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       flex: 1 0 200px;
       text-align: center;
-    }
-    @media (max-width: 600px) {
-      .modal-content {
-        width: 90%;
-      }
     }
   </style>
 </head>
@@ -164,6 +165,8 @@
       <div class="hermano" onclick="openModal('Daysi')">🎧 Daysi</div>
       <div class="hermano" onclick="openModal('Gustavo')">🎧 Gustavo</div>
       <div class="hermano" onclick="openModal('Gladys')">🎧 Gladys</div>
+      <div class="hermano" onclick="openModal('Jose')">🎧 Jose</div>
+      <div class="hermano" onclick="openModal('Dayana')">🎧 Dayana</div>
     </div>
   </div>
 
@@ -176,8 +179,7 @@
 
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="close-btn" onclick="closeModal()">&times;</div>
-      <h3 id="modalTitle"></h3>
+      <h3 id="modalTitle">Modal <span class="close-button" onclick="closeModal()">&times;</span></h3>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -191,41 +193,39 @@
       Daysi: [],
       Gustavo: [],
       Gladys: ['te_amare_toda_la_vida.mp3']
+      Jose: [],
+      Dayana: []
     };
 
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
-
       const audios = audiosPorHermano[nombre] || [];
       if (audios.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
-        audios.forEach(file => {
-          const ext = file.split('.').pop().toLowerCase();
-          const title = file.replace(/_/g, ' ').replace(/\..+$/, '');
+        audios.forEach(audio => {
+          const item = document.createElement('div');
+          item.className = 'audio-item';
 
-          const wrapper = document.createElement('div');
-          wrapper.className = 'audio-item';
+          const title = document.createElement('span');
+          title.innerText = audio.replace(/_/g, ' ').replace(/\..+$/, '');
+          item.appendChild(title);
 
-          const label = document.createElement('div');
-          label.className = 'audio-title';
-          label.textContent = title;
-
-          let media;
-          if (ext === 'mp4') {
-            media = document.createElement('video');
-            media.controls = true;
+          if (audio.endsWith('.mp4')) {
+            const video = document.createElement('video');
+            video.controls = true;
+            video.src = `audios/${nombre.toLowerCase()}/${audio}`;
+            item.appendChild(video);
           } else {
-            media = document.createElement('audio');
-            media.controls = true;
+            const audioEl = document.createElement('audio');
+            audioEl.controls = true;
+            audioEl.src = `audios/${nombre.toLowerCase()}/${audio}`;
+            item.appendChild(audioEl);
           }
-          media.src = `audios/${nombre.toLowerCase()}/${file}`;
 
-          wrapper.appendChild(label);
-          wrapper.appendChild(media);
-          modalContent.appendChild(wrapper);
+          modalContent.appendChild(item);
         });
       }
       document.getElementById('modal').style.display = 'flex';
@@ -237,4 +237,3 @@
   </script>
 </body>
 </html>
-
