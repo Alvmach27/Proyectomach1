@@ -92,10 +92,10 @@
     }
     .modal-content {
       background-color: #fff;
-      padding: 2rem;
+      padding: 1rem;
       border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
+      width: 95%;
+      max-width: 600px;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
@@ -104,13 +104,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 1.5rem;
     }
     .close-button {
-      font-size: 1.5rem;
+      font-size: 2rem;
       cursor: pointer;
     }
     .audio-item {
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .audio-item span {
       display: block;
@@ -120,7 +121,7 @@
     .audio-item audio, .audio-item video {
       width: 100%;
       height: auto;
-      max-height: 250px;
+      max-height: 300px;
     }
     .subsecciones {
       margin: 2rem;
@@ -194,11 +195,11 @@
       Gustavo: [],
       Gladys: ['te_amare_toda_la_vida.mp3'],
       Jose: [],
-      Dayana: [],
+      Dayana: []
     };
 
     function openModal(nombre) {
-      document.getElementById('modalTitle').innerText = nombre;
+      document.getElementById('modalTitle').innerHTML = `${nombre} <span class="close-button" onclick="closeModal()">&times;</span>`;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const audios = audiosPorHermano[nombre] || [];
@@ -218,6 +219,8 @@
             video.controls = true;
             video.src = `/audios/${nombre.toLowerCase()}/${audio}`;
             video.type = 'video/mp4';
+            video.style.width = '100%';
+            video.style.maxHeight = '300px';
             item.appendChild(video);
           } else {
             const audioEl = document.createElement('audio');
