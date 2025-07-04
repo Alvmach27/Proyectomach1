@@ -100,9 +100,20 @@
       overflow-y: auto;
       position: relative;
     }
-    .modal-content h3 {
-      margin-top: 0;
-      text-align: center;
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .modal-header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .modal-header h3 {
+      margin: 0;
     }
     .close-button {
       position: absolute;
@@ -178,7 +189,10 @@
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-button" onclick="closeModal()">&times;</span>
-      <h3 id="modalTitle">Título</h3>
+      <div class="modal-header">
+        <img id="modalPhoto" src="" alt="Foto">
+        <h3 id="modalTitle">Título</h3>
+      </div>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -198,6 +212,8 @@
 
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
+      document.getElementById('modalPhoto').src = `fotos/${nombre.toLowerCase()}.jpg`;
+
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const archivos = audiosPorHermano[nombre] || [];
@@ -258,3 +274,4 @@
   </script>
 </body>
 </html>
+
