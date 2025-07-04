@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proyecto Mach</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
@@ -100,6 +100,10 @@
       overflow-y: auto;
       position: relative;
     }
+    .modal-content h3 {
+      margin-top: 0;
+      text-align: center;
+    }
     .close-button {
       position: absolute;
       top: 10px;
@@ -107,30 +111,13 @@
       font-size: 2rem;
       cursor: pointer;
     }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .modal-header img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    .modal-header h3 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-    .modal-content audio,
-    .modal-content video {
+    .modal-content audio, .modal-content video {
       width: 100%;
       margin-bottom: 1rem;
     }
     .audio-title {
       font-weight: bold;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
       display: block;
     }
     .subsecciones {
@@ -191,10 +178,7 @@
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-button" onclick="closeModal()">&times;</span>
-      <div class="modal-header">
-        <img id="fotoHermano" src="" alt="foto" />
-        <h3 id="modalTitle"></h3>
-      </div>
+      <h3 id="modalTitle">Título</h3>
       <div id="modalContent"></div>
     </div>
   </div>
@@ -214,8 +198,6 @@
 
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
-      document.getElementById('fotoHermano').src = `fotos/${nombre.toLowerCase()}.jpg`;
-
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const archivos = audiosPorHermano[nombre] || [];
@@ -230,20 +212,22 @@
           title.innerText = archivo.replace(/_/g, ' ').replace(/\..+$/, '');
           modalContent.appendChild(title);
 
+          let mediaElement;
           if (ext === 'mp3') {
-            const audioElement = document.createElement('audio');
-            audioElement.controls = true;
-            audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-            audioElement.addEventListener('play', stopAllMedia);
-            modalContent.appendChild(audioElement);
+            mediaElement = document.createElement('audio');
+            mediaElement.controls = true;
+            mediaElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
           } else if (ext === 'mp4') {
-            const videoElement = document.createElement('video');
-            videoElement.controls = true;
-            videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-            videoElement.style.width = '100%';
-            videoElement.style.maxHeight = '300px';
-            videoElement.addEventListener('play', stopAllMedia);
-            modalContent.appendChild(videoElement);
+            mediaElement = document.createElement('video');
+            mediaElement.controls = true;
+            mediaElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            mediaElement.style.width = '100%';
+            mediaElement.style.maxHeight = '300px';
+          }
+
+          if (mediaElement) {
+            mediaElement.addEventListener('play', () => stopAllMediaExcept(mediaElement));
+            modalContent.appendChild(mediaElement);
           }
 
           modalContent.appendChild(document.createElement('br'));
@@ -253,16 +237,22 @@
       document.getElementById('modal').style.display = 'flex';
     }
 
-    function stopAllMedia() {
+    function stopAllMediaExcept(current) {
+      const mediaElements = document.querySelectorAll('audio, video');
+      mediaElements.forEach(el => {
+        if (el !== current) {
+          el.pause();
+          el.currentTime = 0;
+        }
+      });
+    }
+
+    function closeModal() {
       const mediaElements = document.querySelectorAll('audio, video');
       mediaElements.forEach(el => {
         el.pause();
         el.currentTime = 0;
       });
-    }
-
-    function closeModal() {
-      stopAllMedia();
       document.getElementById('modal').style.display = 'none';
     }
   </script>
