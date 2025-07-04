@@ -98,6 +98,11 @@
       max-height: 90%;
       overflow-y: auto;
     }
+    .modal-content audio, .modal-content video {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+    }
     .subsecciones {
       margin: 2rem;
       display: flex;
@@ -188,6 +193,8 @@
             const videoElement = document.createElement('video');
             videoElement.controls = true;
             videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            videoElement.style.width = '100%';
+            videoElement.style.maxHeight = '300px';
             modalContent.appendChild(videoElement);
           }
           modalContent.appendChild(document.createElement('br'));
