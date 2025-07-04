@@ -12,6 +12,7 @@
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: Arial, sans-serif;
+      margin: 0;
     }
     header {
       text-align: center;
@@ -92,12 +93,28 @@
     }
     .modal-content {
       background-color: #fff;
-      padding: 2rem;
+      padding: 1rem;
       border-radius: 10px;
-      max-width: 90%;
+      max-width: 95%;
+      width: 500px;
       max-height: 90%;
       overflow-y: auto;
       position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .audio-item {
+      margin-bottom: 1rem;
+    }
+    .audio-title {
+      margin: 0.5rem 0;
+      font-weight: bold;
     }
     .subsecciones {
       margin: 2rem;
@@ -112,6 +129,11 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       flex: 1 0 200px;
       text-align: center;
+    }
+    @media (max-width: 600px) {
+      .modal-content {
+        width: 90%;
+      }
     }
   </style>
 </head>
@@ -154,9 +176,9 @@
 
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <button id="closeBtn" onclick="closeModal()" style="position:absolute; top:10px; right:10px; font-size:20px; background:none; border:none; cursor:pointer;">✖</button>
-      <h3 id="modalTitle" style="margin-top: 0;"></h3>
-      <div id="modalContent" style="max-height: 400px; overflow-y: auto;"></div>
+      <div class="close-btn" onclick="closeModal()">&times;</div>
+      <h3 id="modalTitle"></h3>
+      <div id="modalContent"></div>
     </div>
   </div>
 
@@ -175,35 +197,37 @@
       document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
-      const archivos = audiosPorHermano[nombre] || [];
 
-      if (archivos.length === 0) {
+      const audios = audiosPorHermano[nombre] || [];
+      if (audios.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
-        archivos.forEach(archivo => {
-          const nombreVisible = archivo.replace(/_/g, ' ').replace(/\.[^/.]+$/, '');
+        audios.forEach(file => {
+          const ext = file.split('.').pop().toLowerCase();
+          const title = file.replace(/_/g, ' ').replace(/\..+$/, '');
 
-          const label = document.createElement('p');
-          label.textContent = nombreVisible;
-          label.style.margin = '10px 0 5px';
+          const wrapper = document.createElement('div');
+          wrapper.className = 'audio-item';
 
-          let mediaElement;
-          if (archivo.toLowerCase().endsWith('.mp4')) {
-            mediaElement = document.createElement('video');
-            mediaElement.controls = true;
-            mediaElement.width = "100%";
+          const label = document.createElement('div');
+          label.className = 'audio-title';
+          label.textContent = title;
+
+          let media;
+          if (ext === 'mp4') {
+            media = document.createElement('video');
+            media.controls = true;
           } else {
-            mediaElement = document.createElement('audio');
-            mediaElement.controls = true;
-            mediaElement.style.width = "100%";
+            media = document.createElement('audio');
+            media.controls = true;
           }
+          media.src = `audios/${nombre.toLowerCase()}/${file}`;
 
-          mediaElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-          modalContent.appendChild(label);
-          modalContent.appendChild(mediaElement);
+          wrapper.appendChild(label);
+          wrapper.appendChild(media);
+          modalContent.appendChild(wrapper);
         });
       }
-
       document.getElementById('modal').style.display = 'flex';
     }
 
