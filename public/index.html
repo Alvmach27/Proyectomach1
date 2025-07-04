@@ -97,6 +97,7 @@
       max-width: 90%;
       max-height: 90%;
       overflow-y: auto;
+      position: relative;
     }
     .modal-content h3 {
       display: flex;
@@ -115,7 +116,7 @@
       font-weight: bold;
     }
     .close-button:hover {
-      color: #f00; /* Cambia el color a rojo cuando el mouse pasa por encima */
+      color: #f00;
     }
     .audio-item {
       margin-bottom: 1.5rem;
@@ -215,18 +216,26 @@
       } else {
         archivos.forEach(archivo => {
           const ext = archivo.split('.').pop().toLowerCase();
+          const item = document.createElement('div');
+          item.className = 'audio-item';
+
+          const title = document.createElement('span');
+          title.innerText = archivo.replace(/_/g, ' ').replace(/\..+$/, '');
+          item.appendChild(title);
+
           if (ext === 'mp3') {
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
             audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-            modalContent.appendChild(audioElement);
+            item.appendChild(audioElement);
           } else if (ext === 'mp4') {
             const videoElement = document.createElement('video');
             videoElement.controls = true;
             videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-            modalContent.appendChild(videoElement);
+            item.appendChild(videoElement);
           }
-          modalContent.appendChild(document.createElement('br'));
+
+          modalContent.appendChild(item);
         });
       }
       document.getElementById('modal').style.display = 'flex';
