@@ -1,10 +1,10 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Proyecto Mach</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
@@ -100,21 +100,6 @@
       overflow-y: auto;
       position: relative;
     }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .modal-header img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .modal-header h3 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
     .close-button {
       position: absolute;
       top: 10px;
@@ -122,13 +107,30 @@
       font-size: 2rem;
       cursor: pointer;
     }
-    .modal-content audio, .modal-content video {
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .modal-header img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .modal-content audio,
+    .modal-content video {
       width: 100%;
       margin-bottom: 1rem;
     }
     .audio-title {
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
       display: block;
     }
     .subsecciones {
@@ -190,8 +192,8 @@
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-button" onclick="closeModal()">&times;</span>
       <div class="modal-header">
-        <img id="modalThumb" src="default-profile.jpg" alt="Foto miniatura">
-        <h3 id="modalTitle">Título</h3>
+        <img id="fotoHermano" src="" alt="foto" />
+        <h3 id="modalTitle"></h3>
       </div>
       <div id="modalContent"></div>
     </div>
@@ -199,8 +201,8 @@
 
   <script>
     const audiosPorHermano = {
-      Alvaro: ['mari.mp3','Nohelia.mp4','Diablo_suelto.mp3'],
-      Marcos: ['mi_novia.mp3'], 
+      Alvaro: ['mari.mp3', 'Nohelia.mp4', 'Diablo_suelto.mp3'],
+      Marcos: ['mi_novia.mp3'],
       Crismar: ['La_ley_del_Monte.mp3'],
       Ninoska: [],
       Daysi: [],
@@ -212,10 +214,12 @@
 
     function openModal(nombre) {
       document.getElementById('modalTitle').innerText = nombre;
-      document.getElementById('modalThumb').src = `fotos/${nombre.toLowerCase()}.jpg`;
+      document.getElementById('fotoHermano').src = `fotos/${nombre.toLowerCase()}.jpg`;
+
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const archivos = audiosPorHermano[nombre] || [];
+
       if (archivos.length === 0) {
         modalContent.innerHTML = '<p>No hay archivos disponibles.</p>';
       } else {
@@ -230,6 +234,7 @@
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
             audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            audioElement.addEventListener('play', stopAllMedia);
             modalContent.appendChild(audioElement);
           } else if (ext === 'mp4') {
             const videoElement = document.createElement('video');
@@ -237,16 +242,27 @@
             videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
             videoElement.style.width = '100%';
             videoElement.style.maxHeight = '300px';
+            videoElement.addEventListener('play', stopAllMedia);
             modalContent.appendChild(videoElement);
           }
 
           modalContent.appendChild(document.createElement('br'));
         });
       }
+
       document.getElementById('modal').style.display = 'flex';
     }
 
+    function stopAllMedia() {
+      const mediaElements = document.querySelectorAll('audio, video');
+      mediaElements.forEach(el => {
+        el.pause();
+        el.currentTime = 0;
+      });
+    }
+
     function closeModal() {
+      stopAllMedia();
       document.getElementById('modal').style.display = 'none';
     }
   </script>
