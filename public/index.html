@@ -228,12 +228,14 @@
           if (ext === 'mp3') {
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
-            audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            audioElement.src = `/audios/${nombre.toLowerCase()}/${archivo}`;
+            audioElement.style.width = '100%';
+            audioElement.style.maxHeight = '300px';
             item.appendChild(audioElement);
           } else if (ext === 'mp4') {
             const videoElement = document.createElement('video');
             videoElement.controls = true;
-            videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            videoElement.src = `/audios/${nombre.toLowerCase()}/${archivo}`;
             item.appendChild(videoElement);
           }
 
