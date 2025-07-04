@@ -98,10 +98,37 @@
       max-height: 90%;
       overflow-y: auto;
     }
-    .modal-content audio, .modal-content video {
+    .modal-content h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.5rem;
+      position: relative;
+    }
+    .close-button {
+      font-size: 2rem;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #333;
+      font-weight: bold;
+    }
+    .close-button:hover {
+      color: #f00; /* Cambia el color a rojo cuando el mouse pasa por encima */
+    }
+    .audio-item {
+      margin-bottom: 1.5rem;
+    }
+    .audio-item span {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .audio-item audio, .audio-item video {
       width: 100%;
-      max-width: 100%;
-      margin-bottom: 1rem;
+      height: auto;
+      max-height: 300px;
     }
     .subsecciones {
       margin: 2rem;
@@ -146,6 +173,8 @@
       <div class="hermano" onclick="openModal('Daysi')">🎧 Daysi</div>
       <div class="hermano" onclick="openModal('Gustavo')">🎧 Gustavo</div>
       <div class="hermano" onclick="openModal('Gladys')">🎧 Gladys</div>
+      <div class="hermano" onclick="openModal('Jose')">🎧 Jose</div>
+      <div class="hermano" onclick="openModal('Dayana')">🎧 Dayana</div>
     </div>
   </div>
 
@@ -171,11 +200,13 @@
       Ninoska: [],
       Daysi: [],
       Gustavo: [],
-      Gladys: ['Te_amare_Toda_la_vida.mp3']
+      Gladys: ['Te_amare_Toda_la_vida.mp3'],
+      Jose: [],
+      Dayana: []
     };
 
     function openModal(nombre) {
-      document.getElementById('modalTitle').innerText = nombre;
+      document.getElementById('modalTitle').innerHTML = `${nombre} <span class="close-button" onclick="closeModal()">&times;</span>`;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const archivos = audiosPorHermano[nombre] || [];
@@ -193,8 +224,6 @@
             const videoElement = document.createElement('video');
             videoElement.controls = true;
             videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
-            videoElement.style.width = '100%';
-            videoElement.style.maxHeight = '300px';
             modalContent.appendChild(videoElement);
           }
           modalContent.appendChild(document.createElement('br'));
@@ -209,3 +238,4 @@
   </script>
 </body>
 </html>
+
