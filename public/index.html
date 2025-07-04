@@ -6,6 +6,8 @@
   <title>Proyecto Mach</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
     body {
       background: url('instrumentos-fondo.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -25,6 +27,36 @@
       font-family: 'Concert One', cursive;
       font-size: 4rem;
       vertical-align: middle;
+    }
+    .banner-container {
+      position: relative;
+      max-width: 70%;
+      margin: 1rem auto;
+      overflow: hidden;
+      height: 240px;
+      border-radius: 15px;
+      background-color: #fff;
+    }
+    .banner-slides {
+      display: flex;
+      width: 600%;
+      animation: slide 25s infinite;
+    }
+    .banner-slide {
+      flex: 1 0 100%;
+    }
+    .banner-slide img, .banner-slide video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @keyframes slide {
+      0%, 16% { margin-left: 0%; }
+      20%, 36% { margin-left: -100%; }
+      40%, 56% { margin-left: -200%; }
+      60%, 76% { margin-left: -300%; }
+      80%, 96% { margin-left: -400%; }
+      100% { margin-left: -500%; }
     }
     .seccion {
       margin: 2rem;
@@ -62,42 +94,28 @@
       background-color: #fff;
       padding: 2rem;
       border-radius: 10px;
-      max-width: 800px;
-      max-height: 80%;
+      max-width: 90%;
+      max-height: 90%;
       overflow-y: auto;
-      width: 80%;
-      position: relative;
     }
-    .modal-content h3 {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.5rem;
-    }
-    .close-button {
-      font-size: 2rem;
-      cursor: pointer;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      color: #333;
-      font-weight: bold;
-    }
-    .close-button:hover {
-      color: #f00;
-    }
-    .audio-item {
-      margin-bottom: 1.5rem;
-    }
-    .audio-item span {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    .audio-item audio, .audio-item video {
+    .modal-content audio, .modal-content video {
       width: 100%;
-      height: auto;
-      max-height: 300px;
+      max-width: 100%;
+      margin-bottom: 1rem;
+    }
+    .subsecciones {
+      margin: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .subseccion {
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex: 1 0 200px;
+      text-align: center;
     }
   </style>
 </head>
@@ -106,6 +124,17 @@
     <img src="m-logo.png" alt="M nota musical">
     <span>Proyecto Mach</span>
   </header>
+
+  <div class="banner-container">
+    <div class="banner-slides">
+      <div class="banner-slide"><img src="img1.jpg" alt="Slide 1"></div>
+      <div class="banner-slide"><img src="img2.jpg" alt="Slide 2"></div>
+      <div class="banner-slide"><img src="img3.jpg" alt="Slide 3"></div>
+      <div class="banner-slide"><video autoplay muted loop src="intro.mp4"></video></div>
+      <div class="banner-slide"><img src="img4.jpg" alt="Slide 4"></div>
+      <div class="banner-slide"><img src="img5.jpg" alt="Slide 5"></div>
+    </div>
+  </div>
 
   <div class="seccion">
     <h2>📁 Hermanos Mach</h2>
@@ -117,9 +146,14 @@
       <div class="hermano" onclick="openModal('Daysi')">🎧 Daysi</div>
       <div class="hermano" onclick="openModal('Gustavo')">🎧 Gustavo</div>
       <div class="hermano" onclick="openModal('Gladys')">🎧 Gladys</div>
-      <div class="hermano" onclick="openModal('Jose')">🎧 Jose</div>
-      <div class="hermano" onclick="openModal('Dayana')">🎧 Dayana</div>
     </div>
+  </div>
+
+  <div class="subsecciones">
+    <div class="subseccion">Duos</div>
+    <div class="subseccion">❤️ Testimonios</div>
+    <div class="subseccion">📜 Historia</div>
+    <div class="subseccion">👥 Amigos</div>
   </div>
 
   <div id="modal" class="modal" onclick="closeModal()">
@@ -137,13 +171,11 @@
       Ninoska: [],
       Daysi: [],
       Gustavo: [],
-      Gladys: ['Te_amare_Toda_la_vida.mp3'],
-      Jose: [],
-      Dayana: [],
+      Gladys: ['Te_amare_Toda_la_vida.mp3']
     };
 
     function openModal(nombre) {
-      document.getElementById('modalTitle').innerHTML = `${nombre} <span class="close-button" onclick="closeModal()">&times;</span>`;
+      document.getElementById('modalTitle').innerText = nombre;
       const modalContent = document.getElementById('modalContent');
       modalContent.innerHTML = '';
       const archivos = audiosPorHermano[nombre] || [];
@@ -152,28 +184,20 @@
       } else {
         archivos.forEach(archivo => {
           const ext = archivo.split('.').pop().toLowerCase();
-          const item = document.createElement('div');
-          item.className = 'audio-item';
-
-          const title = document.createElement('span');
-          title.innerText = archivo.replace(/_/g, ' ').replace(/\..+$/, '');
-          item.appendChild(title);
-
           if (ext === 'mp3') {
             const audioElement = document.createElement('audio');
             audioElement.controls = true;
-            audioElement.src = `/audios/${nombre.toLowerCase()}/${archivo}`;
-            audioElement.style.width = '100%';
-            audioElement.style.maxHeight = '300px';
-            item.appendChild(audioElement);
+            audioElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            modalContent.appendChild(audioElement);
           } else if (ext === 'mp4') {
             const videoElement = document.createElement('video');
             videoElement.controls = true;
-            videoElement.src = `/audios/${nombre.toLowerCase()}/${archivo}`;
-            item.appendChild(videoElement);
+            videoElement.src = `audios/${nombre.toLowerCase()}/${archivo}`;
+            videoElement.style.width = '100%';
+            videoElement.style.maxHeight = '300px';
+            modalContent.appendChild(videoElement);
           }
-
-          modalContent.appendChild(item);
+          modalContent.appendChild(document.createElement('br'));
         });
       }
       document.getElementById('modal').style.display = 'flex';
@@ -185,6 +209,7 @@
   </script>
 </body>
 </html>
+
 
 
 
