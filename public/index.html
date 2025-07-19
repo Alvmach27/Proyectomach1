@@ -181,13 +181,30 @@
   </div>
 
   <div class="subsecciones">
-    <div class="folder">Mas Machs</div>
+    <div class="subseccion">Mas Machs</div>
     <div class="subseccion">Duos</div>
     <div class="subseccion">❤️ Testimonios</div>
     <div class="subseccion">📜 Historia</div>
     <div class="subseccion">👥 Amigos</div>
   </div>
-
+ <div id="masMachsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('masMachsModal')">&times;</span>
+      <h2>Más Machs</h2>
+      <div class="folders">
+        <div class="folder" onclick="openModal('nombre1Modal')">Nombre1</div>
+        <div class="folder" onclick="openModal('nombre2Modal')">Nombre2</div>
+        <div class="folder" onclick="openModal('nombre3Modal')">Nombre3</div>
+        <div class="folder" onclick="openModal('nombre4Modal')">Nombre4</div>
+        <div class="folder" onclick="openModal('nombre5Modal')">Nombre5</div>
+        <div class="folder" onclick="openModal('nombre6Modal')">Nombre6</div>
+        <div class="folder" onclick="openModal('nombre7Modal')">Nombre7</div>
+        <div class="folder" onclick="openModal('nombre8Modal')">Nombre8</div>
+        <div class="folder" onclick="openModal('nombre9Modal')">Nombre9</div>
+        <div class="folder" onclick="openModal('nombre10Modal')">Nombre10</div>
+      </div>
+    </div>
+  </div>
   <div id="modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <span class="close-button" onclick="closeModal()">&times;</span>
